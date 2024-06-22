@@ -13,6 +13,10 @@ tasks:
         msg: "You have to install Golang yourself"
     cmd: echo 'Hi, this will help you to install all the tooling you need'
 
+  install-buf:
+    internal: true
+    cmd: GOBIN=$BIN_DIR go install github.com/bufbuild/buf/cmd/buf
+
   install-task:
     internal: true
     cmd: GOBIN=$BIN_DIR go install github.com/go-task/task/v3/cmd/task
