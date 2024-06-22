@@ -1,0 +1,18 @@
+version: "3"
+
+env:
+  BIN_DIR: "{{ .TASKFILE_DIR }}/bin"
+
+tasks:
+  default:
+    silent: true
+    preconditions:
+      - sh: docker version
+        msg: "You have to install Docker yourself"
+      - sh: go version
+        msg: "You have to install Golang yourself"
+    cmd: echo 'Hi, this will help you to install all the tooling you need'
+
+  install-task:
+    internal: true
+    cmd: GOBIN=$BIN_DIR go install github.com/go-task/task/v3/cmd/task
