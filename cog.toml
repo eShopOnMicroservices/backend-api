@@ -22,3 +22,6 @@ owner = "eShopOnMicroservices"
 authors = [{ signature = "Ruslan Sorokin", username = "ruslanSorokin" }]
 
 [bump_profiles]
+
+[packages.basket]
+path = "src/proto/basket/esom/basket/v1beta1"
