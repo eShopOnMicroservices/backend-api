@@ -1,0 +1,6 @@
+---
+version: 3
+
+includes:
+  ci:
+    taskfile: ci/Taskfile.yaml
