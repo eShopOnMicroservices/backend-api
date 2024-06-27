@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package esom.type.v1beta1.timeofday;
+
+import "buf/validate/validate.proto";
+
+option cc_enable_arenas = true;
+option go_package = "github.com/eShopOnMicroservices/backend-api/gen/go/proto/esom/type/timeofday;timeofdaypb";
+option java_multiple_files = true;
+option java_outer_classname = "MTimeOfDayProto";
+option java_package = "com.github.esom.type.timeofday.v1beta1";
+
+// MTime represents a time of day with precision of minutes. The date and time
+// zone are either not significant or are specified elsewhere. Mostly based on
+// [google.type.TimeOfDay], but with some validation in place.
+message MTime {
+  // Required. Hours of day in 24 hour format. Must be from 0 to 23.
+  int32 hours = 1 [
+    (buf.validate.field).int32.gte = 0,
+    (buf.validate.field).int32.lte = 23,
+    (buf.validate.field).required = true
+  ];
+
+  // Required. Minutes of hour of day. Must be from 0 to 59.
+  int32 minutes = 2 [
+    (buf.validate.field).int32.gte = 0,
+    (buf.validate.field).int32.lte = 59,
+    (buf.validate.field).required = true
+  ];
+}

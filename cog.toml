@@ -25,3 +25,6 @@ authors = [{ signature = "Ruslan Sorokin", username = "ruslanSorokin" }]
 
 [packages.basket]
 path = "src/proto/basket/esom/basket/v1beta1"
+
+[packages.type]
+path = "src/proto/type/esom/type/v1beta1"
