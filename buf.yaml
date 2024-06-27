@@ -1,0 +1,20 @@
+---
+version: v2
+modules:
+  - path: deps/protovalidate/proto/protovalidate
+    name: buf.build/bufbuild/protovalidate
+    lint:
+      ignore:
+        - deps/protovalidate/proto/protovalidate
+
+  - path: src/proto/type
+    lint:
+      ignore_only:
+        PACKAGE_VERSION_SUFFIX:
+          - src/proto/type/esom/type/v1beta1/timeofday # versioning unit is the entire [esom.type] package
+
+  - path: src/proto/basket
+
+lint:
+  use:
+    - DEFAULT
