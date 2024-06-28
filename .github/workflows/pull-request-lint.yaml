@@ -25,6 +25,7 @@ jobs:
         with:
           fail_on_error: true
           reporter: github-pr-review
+          yamllint_flags: .github ci docs src tools buf.yaml Taskfile.yaml
 
   dotenv:
     runs-on: ubuntu-22.04
