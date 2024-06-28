@@ -11,7 +11,8 @@ modules:
     lint:
       ignore_only:
         PACKAGE_VERSION_SUFFIX:
-          - src/proto/type/esom/type/v1beta1/timeofday # versioning unit is the entire [esom.type] package
+          # versioning unit is the entire [esom.type] package
+          - src/proto/type/esom/type/v1beta1/timeofday
 
   - path: src/proto/basket
 

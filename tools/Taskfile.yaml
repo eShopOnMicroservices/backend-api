@@ -1,3 +1,4 @@
+---
 version: "3"
 
 env:
@@ -16,9 +17,13 @@ tasks:
   install-buf:
     vars:
       LOCALLY: "{{.LOCALLY | default 1}}"
-    cmd: "{{if eq 1 (int .LOCALLY)}}GOBIN=$BIN_DIR{{end}} go install github.com/bufbuild/buf/cmd/buf"
+    cmd: >-
+      {{if eq 1 (int .LOCALLY)}}GOBIN=$BIN_DIR{{end}}
+      go install github.com/bufbuild/buf/cmd/buf
 
   install-task:
     vars:
       LOCALLY: "{{.LOCALLY | default 1}}"
-    cmd: "{{if eq 1 (int .LOCALLY)}}GOBIN=$BIN_DIR{{end}} go install github.com/go-task/task/v3/cmd/task"
+    cmd: >-
+      {{if eq 1 (int .LOCALLY)}}GOBIN=$BIN_DIR{{end}}
+      go install github.com/go-task/task/v3/cmd/task
