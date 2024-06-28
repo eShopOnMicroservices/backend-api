@@ -1,0 +1,3 @@
+[submodule "deps/protovalidate"]
+	path = deps/protovalidate
+	url = git@github.com:bufbuild/protovalidate.git

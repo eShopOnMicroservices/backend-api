@@ -25,6 +25,7 @@ jobs:
         with:
           fail_on_error: true
           reporter: github-pr-review
+          yamllint_flags: .github ci docs src tools buf.yaml Taskfile.yaml
 
   dotenv:
     runs-on: ubuntu-22.04
@@ -41,7 +42,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: DavidAnson/markdownlint-cli2-action@v16
         with:
-          globs: "**/*.(md|MD)"
+          globs: "!deps,!CHANGELOG.md,**/*.(md|MD)"
           # doesn't work if the name of the config doesn't start with dot
           config: "./.config/.markdownlint.yaml"
 

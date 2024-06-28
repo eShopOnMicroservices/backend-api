@@ -1,0 +1,29 @@
+---
+version: "3"
+
+env:
+  BIN_DIR: "{{ .TASKFILE_DIR }}/bin"
+
+tasks:
+  default:
+    silent: true
+    preconditions:
+      - sh: docker version
+        msg: "You have to install Docker yourself"
+      - sh: go version
+        msg: "You have to install Golang yourself"
+    cmd: echo 'Hi, this will help you to install all the tooling you need'
+
+  install-buf:
+    vars:
+      LOCALLY: "{{.LOCALLY | default 1}}"
+    cmd: >-
+      {{if eq 1 (int .LOCALLY)}}GOBIN=$BIN_DIR{{end}}
+      go install github.com/bufbuild/buf/cmd/buf
+
+  install-task:
+    vars:
+      LOCALLY: "{{.LOCALLY | default 1}}"
+    cmd: >-
+      {{if eq 1 (int .LOCALLY)}}GOBIN=$BIN_DIR{{end}}
+      go install github.com/go-task/task/v3/cmd/task

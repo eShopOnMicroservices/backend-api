@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package esom.type.v1beta1.timeofday;
+
+import "buf/validate/validate.proto";
+import "esom/type/v1beta1/timeofday/ntime.proto";
+
+option cc_enable_arenas = true;
+option go_package = "github.com/eShopOnMicroservices/backend-api/gen/go/proto/esom/type/timeofday;timeofdaypb";
+option java_multiple_files = true;
+option java_outer_classname = "NTimeOfDayIntervalProto";
+option java_package = "com.github.esom.type.timeofday.v1beta1";
+
+// NTime represents a closed interval for [NTime].
+message NTimeInterval {
+  // Required.
+  NTime begin = 1 [(buf.validate.field).required = true];
+  // Required.
+  NTime end = 2 [(buf.validate.field).required = true];
+
+  option (buf.validate.message).cel = {
+    id: "begin_less_than_end"
+    expression:
+      "this.begin.hours < this.end.hours || (this.begin.hours == "
+      "this.end.hours && this.begin.minutes < this.end.minutes || "
+      "(this.begin.minutes == this.end.minutes && "
+      "this.begin.seconds < this.end.seconds || (this.begin.seconds "
+      "== this.end.seconds && this.begin.nanos < this.end.nanos)))"
+    message: "begin of the interval must be less than the end"
+  };
+}

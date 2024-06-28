@@ -1,0 +1,28 @@
+---
+version: 3
+
+tasks:
+  bump:
+    cmds:
+      - task: bump-cmd
+        vars:
+          IS_DRY: 1
+      - task: bump-warn
+      - task: bump-cmd
+        vars:
+          IS_DRY: 0
+
+  bump-cmd:
+    internal: true
+    silent: true
+    vars:
+      IS_DRY: "{{.IS_DRY}}"
+    cmds:
+      - >-
+        cog bump
+        --auto
+        {{if eq 1 (int .IS_DRY)}}--dry-run {{end}}
+
+  bump-warn:
+    internal: true
+    prompt: Is this correct?
