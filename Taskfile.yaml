@@ -4,3 +4,23 @@ version: 3
 includes:
   ci:
     taskfile: ci/Taskfile.yaml
+  gen-proto-go:
+    taskfile: taskfile/gen-proto-go.yaml
+    internal: true
+
+env:
+  SRC_DIR: src/proto
+
+dotenv:
+  - env/tool.env
+
+tasks:
+  lint:proto:
+    cmds:
+      - $BUF format --write $SRC_DIR
+      - $BUF lint
+
+  gen:proto:
+    deps: [lint:proto]
+    cmd:
+      task: gen-proto-go:generate

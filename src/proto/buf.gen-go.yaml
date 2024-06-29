@@ -1,0 +1,24 @@
+---
+version: v2
+plugins:
+  - local: ./tools/script/protoc-gen-go.bash
+    out: gen/go/proto
+    opt:
+      - paths=import
+      - module=github.com/eShopOnMicroservices/backend-api/gen/go/proto
+  - local: ./tools/script/protoc-gen-go-grpc.bash
+    out: gen/go/proto
+    opt:
+      - paths=import
+      - module=github.com/eShopOnMicroservices/backend-api/gen/go/proto
+      - separate_package=true
+  - local: ./tools/script/protoc-gen-go-vtproto.bash
+    out: gen/go/proto
+    opt:
+      - paths=import
+      - module=github.com/eShopOnMicroservices/backend-api/gen/go/proto
+      - features=size+marshal+unmarshal+equal+clone+pool
+      - pool=github.com/eShopOnMicroservices/backend-api/gen/go/proto/**
+inputs:
+  - directory: src/proto/type
+  - directory: src/proto/basket
