@@ -1,0 +1,25 @@
+---
+version: 3
+
+tasks:
+  clean:
+    cmd: rm -r gen/go/proto/*
+    ignore_error: true
+
+  merge-src: cp -r src/go/proto/* gen/go/proto
+
+  go-work-use: ./script/go-work-use-rec.bash
+  go-mod-tidy: ./script/go-mod-tidy-rec.bash
+  go-build: ./script/go-build-rec.bash
+
+  before:
+    cmds: [task: clean, task: merge-src]
+
+  generate:
+    cmds:
+      - task: before
+      - $BUF generate --template src/proto/buf.gen-go.yaml
+      - task: after
+
+  after:
+    cmds: [task: go-work-use, task: go-mod-tidy, task: go-build]

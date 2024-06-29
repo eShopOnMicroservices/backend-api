@@ -3,6 +3,10 @@ version: "3"
 
 env:
   BIN_DIR: "{{ .TASKFILE_DIR }}/bin"
+  PLUGIN_REPO_PREFIX: https://github.com/bufbuild/plugins.git#main:plugins
+
+dotenv:
+  - ../env/plugin.env
 
 tasks:
   default:
@@ -13,6 +17,31 @@ tasks:
       - sh: go version
         msg: "You have to install Golang yourself"
     cmd: echo 'Hi, this will help you to install all the tooling you need'
+
+  fetch-protoc-gen-go:
+    internal: true
+    cmd: >-
+      docker
+      build $PLUGIN_REPO_PREFIX/protocolbuffers/go/$PROTOC_GEN_GO_VER
+      -q
+      -t $PROTOC_GEN_GO
+
+  fetch-protoc-gen-go-grpc:
+    internal: true
+    cmd: >-
+      docker
+      build $PLUGIN_REPO_PREFIX/grpc/go/$PROTOC_GEN_GO_GRPC_VER
+      -q
+      -t $PROTOC_GEN_GO_GRPC
+
+  fetch-protoc-gen-go-vtproto:
+    internal: true
+    cmd: >-
+      docker
+      build
+      $PLUGIN_REPO_PREFIX/community/planetscale-vtprotobuf/$PROTOC_GEN_GO_VTPROTO_VER
+      -q
+      -t $PROTOC_GEN_GO_VTPROTO
 
   install-buf:
     vars:
@@ -27,3 +56,16 @@ tasks:
     cmd: >-
       {{if eq 1 (int .LOCALLY)}}GOBIN=$BIN_DIR{{end}}
       go install github.com/go-task/task/v3/cmd/task
+
+  install-tools:
+    deps:
+      - install-buf
+      - install-task
+    desc: Install all tools into the 'tools/bin'
+
+  fetch-images:
+    deps:
+      - fetch-protoc-gen-go
+      - fetch-protoc-gen-go-grpc
+      - fetch-protoc-gen-go-vtproto
+    desc: Fetch all images to the default storage

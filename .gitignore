@@ -79,3 +79,5 @@ act.local.secrets
 
 # See: https://github.com/jdx/mise
 mise.local.toml
+
+.task

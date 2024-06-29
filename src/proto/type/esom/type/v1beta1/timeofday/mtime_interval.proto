@@ -6,7 +6,7 @@ import "buf/validate/validate.proto";
 import "esom/type/v1beta1/timeofday/mtime.proto";
 
 option cc_enable_arenas = true;
-option go_package = "github.com/eShopOnMicroservices/backend-api/gen/go/proto/esom/type/timeofday;timeofdaypb";
+option go_package = "github.com/eShopOnMicroservices/backend-api/gen/go/proto/esom/type/v1b1/timeofday;timeofdaypb";
 option java_multiple_files = true;
 option java_outer_classname = "MTimeOfDayIntervalProto";
 option java_package = "com.github.esom.type.timeofday.v1beta1";
