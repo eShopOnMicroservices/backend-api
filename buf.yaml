@@ -19,3 +19,6 @@ modules:
 lint:
   use:
     - DEFAULT
+
+breaking:
+  ignore_unstable_packages: true

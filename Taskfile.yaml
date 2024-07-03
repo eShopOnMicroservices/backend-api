@@ -2,14 +2,9 @@
 version: 3
 
 includes:
-  ci:
-    taskfile: ci/Taskfile.yaml
   gen-proto-go:
     taskfile: taskfile/gen-proto-go.yaml
     internal: true
-
-env:
-  SRC_DIR: src/proto
 
 dotenv:
   - env/tool.env
@@ -17,8 +12,9 @@ dotenv:
 tasks:
   lint:proto:
     cmds:
-      - $BUF format --write $SRC_DIR
+      - $BUF format --write
       - $BUF lint
+      - $BUF breaking --against ".git#branch=main,recurse_submodules=true"
 
   gen:proto:
     deps: [lint:proto]
