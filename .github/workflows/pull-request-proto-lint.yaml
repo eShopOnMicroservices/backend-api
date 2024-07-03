@@ -17,4 +17,6 @@ jobs:
       - uses: bufbuild/buf-lint-action@v1.1.1
       - uses: bufbuild/buf-breaking-action@v1.1.4
         with:
-          against: https://github.com/eShopOnMicroservices/backend-api.git#branch=main,recurse_submodules=true
+          against: >-
+            https://github.com/eShopOnMicroservices/backend-api.git
+            #branch=main,recurse_submodules=true
