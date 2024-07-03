@@ -12,6 +12,12 @@ jobs:
   buf:
     runs-on: ubuntu-22.04
     steps:
+      - uses: tibdex/github-app-token@v2
+        id: generate_token
+        with:
+          app_id: ${{ secrets.APP_CI_ID }}
+          private_key: ${{ secrets.APP_CI_KEY }}
+          revoke: true
       - uses: actions/checkout@v4
         with:
           submodules: true
@@ -22,10 +28,13 @@ jobs:
           cache-dependency-path: tools/go.sum
       - uses: ./.github/actions/install-tools
       - uses: bufbuild/buf-lint-action@v1.1.1
+      - id: specify-git-insteadof-globally
+        run: git config --global url."https://github".insteadOf git://github
       - uses: bufbuild/buf-breaking-action@v1.1.4
         with:
           against: "https://github.com/eShopOnMicroservices/backend-api.git\
             #branch=main,recurse_submodules=true"
+          buf_input_https_password: ${{ steps.generate_token.outputs.token }}
   check-required:
     if: always()
     runs-on: ubuntu-22.04
