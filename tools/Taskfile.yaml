@@ -44,14 +44,10 @@ tasks:
       -t $PROTOC_GEN_GO_VTPROTO
 
   install-buf:
-    cmd: >-
-      GOBIN=$BIN_DIR
-      go install github.com/bufbuild/buf/cmd/buf
+    cmd: go install github.com/bufbuild/buf/cmd/buf
 
   install-task:
-    cmd: >-
-      GOBIN=$BIN_DIR
-      go install github.com/go-task/task/v3/cmd/task
+    cmd: go install github.com/go-task/task/v3/cmd/task
 
   install-tools:
     deps:

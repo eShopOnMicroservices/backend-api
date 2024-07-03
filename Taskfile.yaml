@@ -6,15 +6,12 @@ includes:
     taskfile: taskfile/gen-proto-go.yaml
     internal: true
 
-dotenv:
-  - env/tool.env
-
 tasks:
   lint:proto:
     cmds:
-      - $BUF format --write
-      - $BUF lint
-      - $BUF breaking --against ".git#branch=main,recurse_submodules=true"
+      - buf format --write
+      - buf lint
+      - buf breaking --against ".git#branch=main,recurse_submodules=true"
 
   gen:proto:
     deps: [lint:proto]
