@@ -1,0 +1,20 @@
+---
+name: pull-request-proto-lint
+
+# yamllint disable-line rule:truthy
+on:
+  pull_request:
+    types: [ready_for_review]
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  buf:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/install-tools
+      - uses: bufbuild/buf-lint-action@v1.1.1
+      - uses: bufbuild/buf-breaking-action@v1.1.4
+        with:
+          against: https://github.com/eShopOnMicroservices/backend-api.git#branch=main,recurse_submodules=true
