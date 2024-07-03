@@ -26,3 +26,12 @@ jobs:
         with:
           against: "https://github.com/eShopOnMicroservices/backend-api.git\
             #branch=main,recurse_submodules=true"
+  check-required:
+    if: always()
+    runs-on: ubuntu-22.04
+    needs:
+      - buf
+    steps:
+      - uses: re-actors/alls-green@v1.2.2
+        with:
+          jobs: ${{ toJSON(needs) }}
