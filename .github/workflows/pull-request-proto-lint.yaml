@@ -13,6 +13,10 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5.0.1
+        with:
+          cache: true
+          go-version-file: tools/go.mod
       - uses: ./.github/actions/install-tools
       - uses: bufbuild/buf-lint-action@v1.1.1
       - uses: bufbuild/buf-breaking-action@v1.1.4
