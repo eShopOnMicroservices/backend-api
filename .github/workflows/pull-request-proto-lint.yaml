@@ -8,6 +8,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+env:
+  AGAINST_DIR: against
+
 jobs:
   buf:
     runs-on: ubuntu-22.04
@@ -21,6 +24,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: true
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          path: ${{ env.AGAINST_DIR }}
+          ref: main
       - uses: actions/setup-go@v5.0.1
         with:
           cache: true
@@ -28,12 +36,9 @@ jobs:
           cache-dependency-path: tools/go.sum
       - uses: ./.github/actions/install-tools
       - uses: bufbuild/buf-lint-action@v1.1.1
-      - id: specify-git-insteadof-globally
-        run: git config --global url."https://github".insteadOf git://github
       - uses: bufbuild/buf-breaking-action@v1.1.4
         with:
-          against: "https://github.com/eShopOnMicroservices/backend-api.git\
-            #branch=main,recurse_submodules=true"
+          against: ${{ env.AGAINST_DIR }}
           buf_input_https_password: ${{ steps.generate_token.outputs.token }}
   check-required:
     if: always()
