@@ -34,7 +34,8 @@ jobs:
           cache: true
           go-version-file: tools/go.mod
           cache-dependency-path: tools/go.sum
-      - uses: ./.github/actions/install-tools
+      - id: install-tools
+        run: cd tools && make install-task && task install-buf
       - uses: bufbuild/buf-lint-action@v1.1.1
       - uses: bufbuild/buf-breaking-action@v1.1.4
         with:
