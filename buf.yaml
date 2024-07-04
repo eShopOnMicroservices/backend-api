@@ -21,4 +21,4 @@ lint:
     - DEFAULT
 
 breaking:
-  ignore_unstable_packages: true
+  ignore_unstable_packages: false

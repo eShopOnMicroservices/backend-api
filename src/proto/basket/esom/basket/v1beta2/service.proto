@@ -1,0 +1,207 @@
+// TODO: add upstream errors
+syntax = "proto3";
+
+package esom.basket.v1beta2;
+
+import "buf/validate/validate.proto";
+import "esom/basket/v1beta2/model.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+
+option go_package = "github.com/eShopOnMicroservices/backend-api/gen/go/proto/esom/basket/v1b2;basketpb";
+
+service BasketService {
+  rpc GetBasket(GetBasketRequest) returns (GetBasketResponse);
+
+  rpc GetBasketByCustomerID(GetBasketByCustomerIDRequest) returns (GetBasketByCustomerIDResponse);
+
+  rpc EmptyBasket(EmptyBasketRequest) returns (EmptyBasketResponse);
+
+  rpc AddItem(AddItemRequest) returns (AddItemResponse);
+
+  rpc UpdateItem(UpdateItemRequest) returns (UpdateItemResponse);
+
+  rpc RemoveItem(RemoveItemRequest) returns (RemoveItemResponse);
+}
+
+message GetBasketRequest {
+  string basket_id = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.uuid = true
+  ];
+}
+
+message GetBasketResponse {
+  Basket basket = 1 [(buf.validate.field).required = true];
+}
+
+message GetBasketError {
+  // buf:lint:ignore ENUM_VALUE_PREFIX
+  // buf:lint:ignore ENUM_ZERO_VALUE_SUFFIX
+  enum Enum {
+    UNSPECIFIED = 0;
+
+    UNKNOWN = 1;
+
+    INTERNAL = 2;
+
+    INVALID_BASKET_ID = 3;
+  }
+}
+
+message GetBasketByCustomerIDRequest {
+  string customer_id = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.uuid = true
+  ];
+}
+
+message GetBasketByCustomerIDResponse {
+  Basket basket = 1 [(buf.validate.field).required = true];
+}
+
+message GetBasketByCustomerIDError {
+  // buf:lint:ignore ENUM_VALUE_PREFIX
+  // buf:lint:ignore ENUM_ZERO_VALUE_SUFFIX
+  enum Enum {
+    UNSPECIFIED = 0;
+
+    UNKNOWN = 1;
+
+    INTERNAL = 2;
+
+    INVALID_CUSTOMER_ID = 3;
+  }
+}
+
+message EmptyBasketRequest {
+  string customer_id = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.uuid = true
+  ];
+}
+
+message EmptyBasketResponse {
+  google.protobuf.Empty response = 1;
+}
+
+message EmptyBasketError {
+  // buf:lint:ignore ENUM_VALUE_PREFIX
+  // buf:lint:ignore ENUM_ZERO_VALUE_SUFFIX
+  enum Enum {
+    UNSPECIFIED = 0;
+
+    UNKNOWN = 1;
+
+    INTERNAL = 2;
+
+    INVALID_CUSTOMER_ID = 3;
+  }
+}
+
+message AddItemRequest {
+  string customer_id = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.uuid = true
+  ];
+  string product_id = 2 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.uuid = true
+  ];
+  int32 quantity = 3 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).int32.gte = 1
+  ];
+  string coupon_code = 4;
+}
+
+message AddItemResponse {
+  int32 item_id = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).int32.gte = 0
+  ];
+}
+
+message AddItemError {
+  // buf:lint:ignore ENUM_VALUE_PREFIX
+  // buf:lint:ignore ENUM_ZERO_VALUE_SUFFIX
+  enum Enum {
+    UNSPECIFIED = 0;
+
+    UNKNOWN = 1;
+
+    INTERNAL = 2;
+
+    INVALID_CUSTOMER_ID = 3;
+
+    INVALID_PRODUCT_ID = 4;
+
+    INVALID_QUANTITY = 5;
+  }
+}
+
+message UpdateItemRequest {
+  string customer_id = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.uuid = true
+  ];
+  google.protobuf.FieldMask update_mask = 2;
+  Item item = 3 [(buf.validate.field).required = true];
+}
+
+message UpdateItemResponse {
+  google.protobuf.Empty response = 1;
+}
+
+message UpdateItemError {
+  // buf:lint:ignore ENUM_VALUE_PREFIX
+  // buf:lint:ignore ENUM_ZERO_VALUE_SUFFIX
+  enum Enum {
+    UNSPECIFIED = 0;
+
+    UNKNOWN = 1;
+
+    INTERNAL = 2;
+
+    INVALID_UPDATE_MASK = 3;
+
+    INVALID_CUSTOMER_ID = 4;
+
+    INVALID_ITEM = 5;
+
+    ITEM_NOT_FOUND = 6;
+  }
+}
+
+message RemoveItemRequest {
+  string customer_id = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.uuid = true
+  ];
+  int32 item_id = 2 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).int32.gte = 0
+  ];
+}
+
+message RemoveItemResponse {
+  google.protobuf.Empty response = 1;
+}
+
+message RemoveItemError {
+  // buf:lint:ignore ENUM_VALUE_PREFIX
+  // buf:lint:ignore ENUM_ZERO_VALUE_SUFFIX
+  enum Enum {
+    UNSPECIFIED = 0;
+
+    UNKNOWN = 1;
+
+    INTERNAL = 2;
+
+    INVALID_CUSTOMER_ID = 3;
+
+    INVALID_ITEM_ID = 4;
+
+    ITEM_NOT_FOUND = 5;
+  }
+}

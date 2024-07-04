@@ -2,6 +2,8 @@ go 1.22.4
 
 use (
 	./gen/go/proto/esom/basket/v1b1
+	./gen/go/proto/esom/basket/v1b2
 	./gen/go/proto/esom/type/v1b1
+	./gen/go/proto/esom/type/v1b2
 	./tools
 )

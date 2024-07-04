@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package esom.basket.v1beta2;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/eShopOnMicroservices/backend-api/gen/go/proto/esom/basket/v1b2;basketpb";
+
+message BasketAbandoned {
+  string basket_id = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.uuid = true
+  ];
+  google.protobuf.Timestamp occurred_at = 2 [(buf.validate.field).timestamp = {lt_now: true}];
+}
+
+message BasketUpdated {
+  string basket_id = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.uuid = true
+  ];
+  google.protobuf.Timestamp occurred_at = 3 [(buf.validate.field).timestamp = {lt_now: true}];
+}
+
+message BasketViewed {
+  string basket_id = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.uuid = true
+  ];
+  google.protobuf.Timestamp occurred_at = 2 [(buf.validate.field).timestamp = {lt_now: true}];
+}

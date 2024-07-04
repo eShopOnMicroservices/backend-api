@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package esom.basket.v1beta2;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/eShopOnMicroservices/backend-api/gen/go/proto/esom/basket/v1b2;basketpb";
+
+message Basket {
+  string basket_id = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.uuid = true
+  ];
+  repeated Item items = 2;
+  google.protobuf.Timestamp viewed_at = 3 [(buf.validate.field).timestamp = {lt_now: true}];
+  google.protobuf.Timestamp updated_at = 4 [(buf.validate.field).timestamp = {lt_now: true}];
+}
+
+message Item {
+  int32 item_id = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).int32.gte = 0
+  ];
+  string product_id = 2 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.uuid = true
+  ];
+  int32 quantity = 3 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).int32.gte = 1
+  ];
+  string coupon_code = 4;
+}
