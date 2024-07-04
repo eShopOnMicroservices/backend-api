@@ -8,6 +8,9 @@ includes:
 
 tasks:
   lint:proto:
+    sources:
+      - src/proto
+      - deps
     cmds:
       - buf format --write
       - buf lint
