@@ -44,18 +44,10 @@ tasks:
       -t $PROTOC_GEN_GO_VTPROTO
 
   install-buf:
-    vars:
-      LOCALLY: "{{.LOCALLY | default 1}}"
-    cmd: >-
-      {{if eq 1 (int .LOCALLY)}}GOBIN=$BIN_DIR{{end}}
-      go install github.com/bufbuild/buf/cmd/buf
+    cmd: go install github.com/bufbuild/buf/cmd/buf
 
   install-task:
-    vars:
-      LOCALLY: "{{.LOCALLY | default 1}}"
-    cmd: >-
-      {{if eq 1 (int .LOCALLY)}}GOBIN=$BIN_DIR{{end}}
-      go install github.com/go-task/task/v3/cmd/task
+    cmd: go install github.com/go-task/task/v3/cmd/task
 
   install-tools:
     deps:

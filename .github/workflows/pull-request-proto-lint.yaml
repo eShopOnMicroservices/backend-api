@@ -1,0 +1,52 @@
+---
+name: pull-request-proto-lint
+
+# yamllint disable-line rule:truthy
+on:
+  pull_request:
+    types: [ready_for_review]
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  AGAINST_DIR: against
+
+jobs:
+  buf:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: tibdex/github-app-token@v2
+        id: generate_token
+        with:
+          app_id: ${{ secrets.APP_CI_ID }}
+          private_key: ${{ secrets.APP_CI_KEY }}
+          revoke: true
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          path: ${{ env.AGAINST_DIR }}
+          ref: main
+      - uses: actions/setup-go@v5.0.1
+        with:
+          cache: true
+          go-version-file: tools/go.mod
+          cache-dependency-path: tools/go.sum
+      - id: install-tools
+        run: cd tools && make install-task && task install-buf
+      - uses: bufbuild/buf-lint-action@v1.1.1
+      - uses: bufbuild/buf-breaking-action@v1.1.4
+        with:
+          against: ${{ env.AGAINST_DIR }}
+          buf_input_https_password: ${{ steps.generate_token.outputs.token }}
+  check-required:
+    if: always()
+    runs-on: ubuntu-22.04
+    needs:
+      - buf
+    steps:
+      - uses: re-actors/alls-green@v1.2.2
+        with:
+          jobs: ${{ toJSON(needs) }}
