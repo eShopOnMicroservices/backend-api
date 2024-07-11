@@ -29,7 +29,7 @@ jobs:
           submodules: true
           path: ${{ env.AGAINST_DIR }}
           ref: main
-      - uses: actions/setup-go@v5.0.1
+      - uses: actions/setup-go@v5.0.2
         with:
           cache: true
           go-version-file: tools/go.mod
